@@ -1,0 +1,29 @@
+[
+  {
+    "cpu": 1024,
+    "image": "520044189785.dkr.ecr.us-east-2.amazonaws.com/website:${APP_VERSION}",
+    "memory": 1024,
+    "name": "appweb",
+    "networkMode": "awsvpc",
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 80
+      }
+    ],
+    "environment": [
+      {
+        "name": "AWESOME_ENV_VAR",
+        "value": "${AWESOME_ENV_VAR}"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "appweb-log",
+        "awslogs-region": "us-east-2",
+        "awslogs-stream-prefix": "appweb-log-${APP_VERSION}"
+      }
+    }
+  }
+]

@@ -4,17 +4,17 @@ provider "aws" {
 }
 terraform {
   backend "s3" {
-    bucket = "your-bucket-here"
-    key    = "key-terraform-.tfstate"
+    bucket = "metal.corp-devops-test"
+    key    = "app/webapp01-terraform-.tfstate"
     region = "us-east-2"
   }
 } 
-
+# "520044189785.dkr.ecr.us-east-2.amazonaws.com/$(APP_IMAGE):${APP_VERSION}
 module "app-deploy" {
-  source                 = "git@github.com:EzzioMoreira/modulo-awsecs-fargate.git?ref=v0.2"
+  source                 = "git@github.com:EzzioMoreira/modulo-awsecs-fargate.git?ref=master"
   containers_definitions = data.template_file.containers_definitions_json.rendered
   environment            = "development"
-  app_name               = "webapp"
+  app_name               = "website"
   app_port               = "80"
   cloudwatch_group_name  = "development-app"
   default_tags  = {
@@ -26,6 +26,10 @@ module "app-deploy" {
     Owner       : "Metal.Corp"
   }
 }
+
+#output "load_balancer_ip" {
+#  value = module.app-deploy.aws_lb.main.ip
+#}
 
 data "template_file" "containers_definitions_json" {
   template = file("./containers_definitions.json")
@@ -43,7 +47,7 @@ variable "APP_VERSION" {
 }
 
 variable "APP_IMAGE" {
-  default = "app"
+  default = "website"
 }
 
 variable "aws_region" {

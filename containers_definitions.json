@@ -1,7 +1,7 @@
 [
   {
     "cpu": 1024,
-    "image": "520044189785.dkr.ecr.us-east-2.amazonaws.com/website:${APP_VERSION}",
+    "image": "520044189785.dkr.ecr.us-east-2.amazonaws.com/website:latest",
     "memory": 1024,
     "name": "appweb",
     "networkMode": "awsvpc",
@@ -9,12 +9,6 @@
       {
         "containerPort": 80,
         "hostPort": 80
-      }
-    ],
-    "environment": [
-      {
-        "name": "AWESOME_ENV_VAR",
-        "value": "${AWESOME_ENV_VAR}"
       }
     ],
     "logConfiguration": {

@@ -1,8 +1,8 @@
 [
   {
     "cpu": 256,
-    "image": "520044189785.dkr.ecr.us-east-2.amazonaws.com/${APP_IMAGE}:${APP_VERSION}",
-    "memory": 1024,
+    "image": "${AWS_ACCOUNT}.dkr.ecr.us-east-2.amazonaws.com/${APP_IMAGE}:${APP_VERSION}",
+    "memory": 256,
     "name": "${APP_IMAGE}",
     "networkMode": "awsvpc",
     "portMappings": [

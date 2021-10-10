@@ -5,24 +5,26 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "metal.corp-devops-test"
-    key    = "app/webapp01-terraform-.tfstate"
+    bucket = "your-bucket-here"
+    key    = "path/keyname-terraform-.tfstate"
     region = "us-east-2"
   }
-}
+} 
 
 module "app-deploy" {
-  source                 = "git@github.com:EzzioMoreira/modulo-awsecs-fargate.git?ref=appname"
+  source                 = "git@github.com:EzzioMoreira/modulo-awsecs-fargate.git?ref=master"
   containers_definitions = data.template_file.containers_definitions_json.rendered
-  environment            = "development"
-  app_name               = "website"
+  environment            = "your-environment"
+  app_name               = "your-app-name"
+  app_count              = "2"
   app_port               = "80"
   fargate_version        = "1.4.0"
+  cloudwatch_group_name  = "your-grouplog-name"
 }
 
-#output "load_balancer_dns_name" {
-#  value = module.app-deploy.aws_alb.main.dns_name
-#}
+output "load_balancer_dns_name" {
+  value = module.app-deploy.loadbalance_dns_name
+}
 
 data "template_file" "containers_definitions_json" {
   template = file("./containers_definitions.json")
@@ -30,15 +32,21 @@ data "template_file" "containers_definitions_json" {
   vars = {
     APP_VERSION = var.APP_VERSION
     APP_IMAGE   = var.APP_IMAGE
+    AWS_ACCOUNT = var.AWS_ACCOUNT
   }
 }
 
 variable "APP_VERSION" {
-    default   = "bead89c"
-    describle = "Version comes from git commit in Makefile."
+  default   = "latest"
+  description = "Version comes from git commit in Makefile"
 }
 
 variable "APP_IMAGE" {
-  default   = "website"
-  describle = "Name comes from variable APP_IMAGE in Makefile"
+  default   = "your-image-name"
+  description = "Name comes from variable APP_IMAGE in Makefile"
+}
+
+variable "AWS_ACCOUNT" {
+  default   = "your-account-id"
+  describle = "Get the value of variable AWS_ACCOUNT in Makefile"
 }

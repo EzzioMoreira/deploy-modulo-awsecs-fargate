@@ -48,5 +48,5 @@ variable "APP_IMAGE" {
 
 variable "AWS_ACCOUNT" {
   default   = "your-account-id"
-  describle = "Get the value of variable AWS_ACCOUNT in Makefile"
+  description = "Get the value of variable AWS_ACCOUNT in Makefile"
 }

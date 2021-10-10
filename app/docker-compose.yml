@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  webapp:
+    build: .
+    image:  app:${GIT_COMMIT}
+    ports: 
+      - "80:80"

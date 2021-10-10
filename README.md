@@ -6,6 +6,12 @@
 * Create Target Group
 * Create Monitoring Log in AWS CloudWatch
 
+#### Requisites for running this project:
+- Docker
+- Docker-compose
+- Make
+- AWS CLI version 2
+
 ## Usage
 ##### Credential for AWS
 Create .env file to AWS credentials with access key and secret key.
@@ -31,3 +37,15 @@ AWS_SECRET_ACCESS_KEY=your-secret-key-here
 |------|-------------|
 | ecs_cluster_name | ECS cluster name. |
 | aws\_vpc\_id | The ID of AWS VPC created for the ECS cluster. ||
+
+## The visual representation
+```shell
+# run the command for terraform shell
+make terraform-sh
+
+# and then install apk graphviz
+apk -U add graphviz
+
+# Command is used to generate a visual representation
+terraform graph | dot -Tsvg > graph.svg
+```

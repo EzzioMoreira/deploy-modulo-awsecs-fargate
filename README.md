@@ -1,10 +1,9 @@
-### This Terraform deploy an APP in AWS ECS Fargate:
+### This Terraform Call Module Terraform and deploy an APP in AWS ECS Fargate:
 
 * Create ECS Task Definition
 * Create ECS Service Fargate
 * Create Application Load Balance
 * Create Target Group
-* Create Monitoring Log in AWS CloudWatch
 
 #### Requisites for running this project:
 - Docker
@@ -20,25 +19,7 @@ Create .env file to AWS credentials with access key and secret key.
 AWS_ACCESS_KEY_ID=your-access-key-here
 AWS_SECRET_ACCESS_KEY=your-secret-key-here
 ```
-
-## Terraform inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| aws\_region | The AWS region to deploy.. | string | `"us-east-2"` | yes |
-| az\_count | The number of Availability Zones that we will deploy into. | string | `"2"` | no |
-| environment | Name of environment to be created | string | n/a | yes |
-| vpc\_cidr\_block | Range of IPv4 address for the VPC. | string | `"10.10.0.0/16"` | no |
-| default\_tags | Default tags name. | map | `"Key: value"` | yes |
-
-## Terraform Outputs
-
-| Name | Description |
-|------|-------------|
-| ecs_cluster_name | ECS cluster name. |
-| aws\_vpc\_id | The ID of AWS VPC created for the ECS cluster. ||
-
-## The visual representation
+#### The visual representation
 ```shell
 # run the command for terraform shell
 make terraform-sh
@@ -48,4 +29,22 @@ apk -U add graphviz
 
 # Command is used to generate a visual representation
 terraform graph | dot -Tsvg > graph.svg
+```
+#### For help, run the following commands: ```make help```:
+##### Print:
+
+```make
+make help:         ## Run make help.
+docker-run-local:  ## Run the container on the local machine.
+docker-stop-local: ## Destroy the container on the local machine.
+ecr-build:         ## ECR-step:1 Build your Docker image.
+ecr-login:         ## ECR-step:2 Retrieve an authentication token and authenticate your Docker client to your registry.
+ecr-tag:           ## ECR-step:3 Tag your image so you can push the image to this repository.
+ecr-push:          ## ECR-step:4 Push this image to your newly created AWS repository.
+terraform-fmt:     ## Command is used to rewrite Terraform configuration files to a canonical format and style.
+terraform-init:    ## Run terraform init to download all necessary plugins
+terraform-plan:    ## Exec a terraform plan and puts it on a file called plano
+terraform-apply:   ## Uses plano to apply the changes on AWS.
+terraform-destroy: ## Destroy all resources created by the terraform file in this repo.
+terraform-sh:      ## Exec Terraform CLI.
 ```

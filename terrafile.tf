@@ -5,25 +5,25 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "your-bucket-here"
-    key    = "path/keyname-terraform-.tfstate"
+    bucket = "metal.corp-devops-test"
+    key    = "app/webapp01-terraform-.tfstate"
     region = "us-east-2"
   }
-} 
+}
 
 module "app-deploy" {
   source                 = "git@github.com:EzzioMoreira/modulo-awsecs-fargate.git?ref=master"
   containers_definitions = data.template_file.containers_definitions_json.rendered
-  environment            = "your-environment"
-  app_name               = "your-app-name"
+  environment            = "development"
+  app_name               = "website"
   app_count              = "2"
   app_port               = "80"
   fargate_version        = "1.4.0"
-  cloudwatch_group_name  = "your-grouplog-name"
+  cloudwatch_group_name  = "website"
 }
 
 output "load_balancer_dns_name" {
-  value = module.app-deploy.loadbalance_dns_name
+  value = "http://${module.app-deploy.loadbalance_dns_name}"
 }
 
 data "template_file" "containers_definitions_json" {
@@ -37,16 +37,16 @@ data "template_file" "containers_definitions_json" {
 }
 
 variable "APP_VERSION" {
-  default   = "latest"
+  default   = "28b99ca"
   description = "Version comes from git commit in Makefile"
 }
 
 variable "APP_IMAGE" {
-  default   = "your-image-name"
+  default   = "website"
   description = "Name comes from variable APP_IMAGE in Makefile"
 }
 
 variable "AWS_ACCOUNT" {
-  default   = "your-account-id"
-  describle = "Get the value of variable AWS_ACCOUNT in Makefile"
+  default   = "520044189785"
+  description = "Get the value of variable AWS_ACCOUNT in Makefile"
 }
